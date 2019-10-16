@@ -18,12 +18,12 @@
 	document.getElementById("todoList").appendChild(newItem)
 	
 };
-
+//this is the function to save to local storage
 function save() {
   	const fieldvalue = querySelectorAll('li').value;
   	localStorage.setItem('li', JSON.stringify("li"));
 }
-
+//this is the function to load it from local storage
 function load() {
   const storedvalue = JSON.parse(localStorage.getItem('li'));
   if (storedvalue) {
@@ -184,6 +184,7 @@ function todoTimeFinish() {
 				<form id="todoForm">
 				<input id="todoInput" value="" size="15" placeholder="enter task here">
 				<button id="button" type="button" onClick="todoList()">Add task</button>
+				<!--buttons to save and load list-->
 				<button id="save" onclick="save()">Save</button>
  				<button id="load" onclick="load()">Load</button>
 			</form>
