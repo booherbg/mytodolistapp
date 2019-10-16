@@ -1,15 +1,16 @@
 <html>
-
-<!--this is solely for troubleshooting purposes and is not the final project-->
 	<head>
 	
 
 		<script>
+			let item;
+			let text;
+			let newItem;
 //this creates the functionality of the todo list button. I also have the ability to remove a child in this same function
 			function todoList() {
-	const item = document.getElementById("todoInput").value
-	const text = document.createTextNode(item)
-	const newItem = document.createElement("li")
+	item = document.getElementById("todoInput").value
+	text = document.createTextNode(item)
+	newItem = document.createElement("li")
 	newItem.onclick = function() {this.parentNode.removeChild(this);}
 	newItem.onmousemove = function() {this.style.backgroundColor = "orange";}
 	newItem.onmouseout = function() {this.style.backgroundColor = "lightblue";}
@@ -18,16 +19,16 @@
 	document.getElementById("todoList").appendChild(newItem)
 	
 };
-//this is the function to save to local storage
+
 function save() {
   	const fieldvalue = querySelectorAll('li').value;
-  	localStorage.setItem('li', JSON.stringify("li"));
+  	localStorage.setItem('li', JSON.stringify(newItem));
 }
-//this is the function to load it from local storage
+
 function load() {
-  const storedvalue = JSON.parse(localStorage.getItem('li'));
+  const storedvalue = JSON.parse(localStorage.getItem(newItem));
   if (storedvalue) {
-    querySelectorAll('li').value = storedvalue;
+    document.querySelectorAll('li').value = storedvalue;
   }
 }
 
@@ -184,7 +185,6 @@ function todoTimeFinish() {
 				<form id="todoForm">
 				<input id="todoInput" value="" size="15" placeholder="enter task here">
 				<button id="button" type="button" onClick="todoList()">Add task</button>
-				<!--buttons to save and load list-->
 				<button id="save" onclick="save()">Save</button>
  				<button id="load" onclick="load()">Load</button>
 			</form>
