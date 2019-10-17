@@ -6,6 +6,8 @@
 			let item;
 			let text;
 			let newItem;
+			const storeData = document.querySelectorAll('ol li');
+			//let storeData = document.getElementById('todoInput')
 //this creates the functionality of the todo list button. I also have the ability to remove a child in this same function
 			function todoList() {
 	item = document.getElementById("todoInput").value
@@ -17,21 +19,21 @@
 	todoInput.onclick = function() {this.value = ""}
 	newItem.appendChild(text)
 	document.getElementById("todoList").appendChild(newItem)
-	
 };
 
-function save() {
-  	const fieldvalue = querySelectorAll('li').value;
-  	localStorage.setItem('li', JSON.stringify(newItem));
+function saveList() {
+	//let fieldvalue = document.querySelectorAll('li').value;
+  	localStorage.setItem('listItems', JSON.stringify(storeData));
 }
 
-function load() {
-  const storedvalue = JSON.parse(localStorage.getItem(newItem));
-  if (storedvalue) {
-    document.querySelectorAll('li').value = storedvalue;
-  }
+function loadList() {
+	let call = JSON.parse(localStorage.getItem('listItems'));
+	if (call) {
+		document.querySelectorAll('ol li').value = call;
+	}
 }
 
+//localStorage.clear();
 
 //this creates the numbers needed to generate the timestamp
 function getTimeStamp() {
@@ -172,7 +174,7 @@ function todoTimeFinish() {
 </style>
 	</head>
 	<!-- this is the main body of the page-->
-	<body onload="setTime()">
+	<body class="mainPage" onload="setTime()">
 		<!--heres the top header-->
 		<header><h1>My To Do List</h1></header>
 		<!--this is the first to do list box, this is the actul task box-->
@@ -185,8 +187,8 @@ function todoTimeFinish() {
 				<form id="todoForm">
 				<input id="todoInput" value="" size="15" placeholder="enter task here">
 				<button id="button" type="button" onClick="todoList()">Add task</button>
-				<button id="save" onclick="save()">Save</button>
- 				<button id="load" onclick="load()">Load</button>
+				<button id="save" type="button" onClick="saveList()">Save</button>
+ 				<button id="load" type="button" onClick="loadList()">Load</button>
 			</form>
 			<!--this acts as a place holder for when the items are entered, without this there would be no place for the items to appear when they are generated when pushing the button-->
 			<ol id="todoList">
