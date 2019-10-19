@@ -46,7 +46,231 @@ function todoTimeFinish() {
 	const newTimeItem = document.createElement("li")
 	newTimeItem.onclick = function() {this.parentNode.removeChild(this);}
 	newTimeItem.onmousemove = function() {this.style.backgroundColor = "orange";}
-	newTimeItem.onmouseout = function() {this.style.backgroundColor = "lightblue";}
+	newTimeItem.onmouseout = function() {this.style.backgroundColor = "lightblue";}<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>To Do List App</title>
+<style>
+  /* the stylings for the body*/
+  body {
+    background-color: darkblue;
+    overflow: scroll;
+    min-width: 980px;
+    min-height: 500px;
+  }
+  /*this removes the text box from the timestamp buttons as I don't want those to show up as there as is no need for them*/
+  .field {
+    visibility: hidden;
+  }
+  /*these are the stylings for the 3 boxes where the list themselves get generated*/
+  .todoClass {
+    background-color: lightblue;
+    box-shadow: 5px 5px;
+    width: 35%;
+    min-width: 20%;
+    height: 400px;
+    min-height: 400px;
+    max-height: 400px;
+    overflow: auto;
+    float: left;
+    margin: 5%;
+    border-radius: 15px 50px 30px;
+  }
+  /*styling for the button footer*/
+  footer {
+    background-color: lightblue;
+    box-shadow: 5px 5px;
+    width: 79%;
+    height: 10%;
+    margin: 5%;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+    bottom: 0px;
+    border-radius: 15px 50px 30px;
+  }
+  /*style for most of the displayed text other then the list item themselves*/
+  #instruction {
+    text-align: center;
+    font-size: 20px;
+    
+  }
+  /*styling for the top header of the page*/
+  header {
+    background-color: lightblue;
+    box-shadow: 5px 5px;
+    width: 79%;
+    height: 10%;
+    margin-left: 5%;
+    border-radius: 15px 50px 30px;
+  }
+  /*styling for the text of the top header, this is mainly for alignment purposes*/
+  h1 {
+    text-align: center;
+    font-size: 30px;
+  }
+  /*this is the styling for the box where people enter their text to submit their task*/
+  #todoInput {
+    margin: 5%;
+    border-radius: 15%;
+  }
+  /*this is the styling for the actul button on the page, without this it would just be a grey button*/
+  .time {
+    margin: 5%;
+    border-radius: 15%;
+    background-color: black;
+    color: yellow;
+  }
+  /*this is a duplicate of the styling above, I plan to clean this up*/
+  #button {
+    border-radius: 15%;
+    background-color: black;
+    color: yellow;
+  }
+  /*this is more of a functionality feature, this makes the help box hide unless the mouse is scrolled over it, hidden is set as a default*/
+  .helptext {
+    display: none;
+  }
+  /*and this is the function that allows the text to show with the approperate styles when the mouse is hovered over*/
+  .help:hover + .helptext {
+    display: block;
+    background-color: yellow;
+    position: absolute;
+    height: 140px;
+    width: 20%;
+    border-radius: 5%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black; 
+  }
+
+  table {
+    table-layout: fixed;
+    width: 100%;
+
+  }
+
+  th, td, tr {
+    text-align: justify;
+    background-color: white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    width: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+
+  }
+
+  td:hover {
+    text-align: justify;
+    background-color: white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    display: inline-table;
+    overflow: visible;
+    position: absolute;
+  }
+</style>
+  </head>
+    <body>
+    <!--heres the top header-->
+    <header><h1>My To Do List</h1></header>
+    <!--this is the first to do list box, this is the actul task box-->
+      <div class="todoClass" style="cursor: pointer">
+        <!--heres the help bar-->
+        <div class="help"><p id="instruction">Enter a task</br>Place mouse here if you need help</p></div>
+        <p class="helptext">To enter an item in the to do list, click the text box at the top and type what you want to add. Then click "add task" to insert that into the list. Once added click on the highlighted list item to remove it from the list
+      </p>
+        <form action="#" >
+           <textarea
+              placeholder="Type your task here"
+              class="input"
+            ></textarea>
+            <textarea
+              placeholder="Type your task here"
+              class="field"
+            ></textarea>
+             
+            <input type="submit" class="submit" value="Add task" onmouseover="setTime()"/>
+          </form>
+         <table class="comments">
+          <tr>
+            <th>Task</th>
+            <th>start time</th>
+        
+      </table>
+        </div>
+
+        <div class="todoClass">
+        </div>
+
+    
+    
+
+    <script>const submit = document.querySelector('.submit');
+const commentList = document.querySelector('.comments');
+const commentInput = document.querySelector('.input');
+const time = document.querySelector('.field');
+
+function getTimeStamp() {
+       const now = new Date();
+       return ((now.getMonth() + 1) + '/' + (now.getDate()) + '/' + now.getFullYear() + " " + now.getHours() + ':'
+                     + ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + ':' + ((now.getSeconds() < 10) ? ("0" + now
+                     .getSeconds()) : (now.getSeconds())));
+     };
+
+     function setTime() {
+    document.querySelector('.field').value = getTimeStamp();
+};
+
+function template(data) {
+  commentList.insertAdjacentHTML("beforeend", `
+  <div class="comment flex items-start justify-start">
+    
+      <tr class="flex-1">
+        <td >${data.comment}</td>
+         <td >${data.timeRecord}</td>
+      </tr>
+    
+    </div>
+  </div>`);
+}
+function appendComment (event) {
+  const data = {
+    comment: commentInput.value,
+    timeRecord: time.value,
+  };
+  event.preventDefault();
+  // If the value is nothing just return
+  if (commentInput.value.length < 1) return;
+  // Insert new template into DOM
+  template(data);
+  // Reset textrea value
+  commentInput.value = "";
+  // Save the list to localStorage
+  localStorage.setItem('commentListing', commentList.innerHTML);
+}
+submit.addEventListener('click', appendComment, false)
+// Check for saved wishlist items
+const saved = localStorage.getItem('commentListing');
+// If there are any saved items, update our list
+if (saved) {
+  commentList.innerHTML = saved;
+}
+
+
+localStorage.clear();
+
+
+
+</script>
+  </body>
+</html>
 	newTimeItem.appendChild(timeText)
 	document.getElementById("todoTimeFinish").appendChild(newTimeItem)
 
