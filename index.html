@@ -18,11 +18,11 @@
     visibility: hidden;
   }
   /*these are the stylings for the 3 boxes where the list themselves get generated*/
-  .todoClass {
+  #todoID1 {
     background-color: lightblue;
     box-shadow: 5px 5px;
-    width: 35%;
-    min-width: 20%;
+    width: 80%;
+    min-width: 50%;
     height: 400px;
     min-height: 400px;
     max-height: 400px;
@@ -30,13 +30,14 @@
     float: left;
     margin: 5%;
     border-radius: 15px 50px 30px;
+  
   }
   /*styling for the button footer*/
   footer {
     background-color: lightblue;
     box-shadow: 5px 5px;
     width: 79%;
-    height: 10%;
+    height: 50px;
     margin: 5%;
       display: flex;
       justify-content: flex-end;
@@ -44,6 +45,22 @@
     bottom: 0px;
     border-radius: 15px 50px 30px;
   }
+
+  #clear {
+    display: block; 
+    margin: 0 auto;
+    height: 45px;
+  }
+
+  #clearInput {
+    border-radius: 15%;
+    background-color: black;
+    color: yellow;
+    width: 200px;
+    height: 40px;
+    font-size: 30px;
+  }
+
   /*style for most of the displayed text other then the list item themselves*/
   #instruction {
     text-align: center;
@@ -77,7 +94,7 @@
     color: yellow;
   }
   /*this is a duplicate of the styling above, I plan to clean this up*/
-  #button {
+  input, textarea {
     border-radius: 15%;
     background-color: black;
     color: yellow;
@@ -91,12 +108,15 @@
     display: block;
     background-color: yellow;
     position: absolute;
-    height: 140px;
-    width: 20%;
+    height: 40%;
+    width: 50%;
+    min-height: 200px;
+    min-width: 80px;
     border-radius: 5%;
     border-width: 1px;
     border-style: solid;
     border-color: black; 
+    padding: 10px;
   }
 
   table {
@@ -114,10 +134,11 @@
     width: 50px;
     overflow: hidden;
     white-space: nowrap;
+    border-radius: 15%;
 
   }
 
-  td:hover {
+  .content:hover {
     text-align: justify;
     background-color: white;
     border-width: 1px;
@@ -126,17 +147,35 @@
     display: inline-table;
     overflow: visible;
     position: absolute;
+    min-width: 35%;
+    border-radius: 15%;
+  }
+
+
+  .mark {
+    cursor: pointer;
+  }
+
+  .markTable {
+        text-align: justify;
+    background-color: white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    width: 10px;
+    overflow: hidden;
+    white-space: nowrap;
   }
 </style>
   </head>
-    <body>
+    <body >
     <!--heres the top header-->
     <header><h1>My To Do List</h1></header>
     <!--this is the first to do list box, this is the actul task box-->
-      <div class="todoClass" style="cursor: pointer">
+      <div id="todoID1">
         <!--heres the help bar-->
         <div class="help"><p id="instruction">Enter a task</br>Place mouse here if you need help</p></div>
-        <p class="helptext">To enter an item in the to do list, click the text box at the top and type what you want to add. Then click "add task" to insert that into the list. Once added click on the highlighted list item to remove it from the list
+        <p class="helptext">To enter an item in the to do list, click the text box at the top and type what you want to add. Then click "add task" to insert that into the list. you'll be able to see the item you added as well as the time the item was added. click "delete" to delete an item off a list and click the "complete" check box to mark it as complete. These items will save to your browser so click "clear all" to wipe everything out and start over if you wish to start a new list. Also place your mouse over anything that overflows off to see the complete contents.
       </p>
         <form action="#" >
            <textarea
@@ -151,23 +190,33 @@
             <input type="submit" class="submit" value="Add task" onmouseover="setTime()"/>
           </form>
          <table class="comments">
-          <tr>
-            <th>Task</th>
-            <th>start time</th>
-        
+          <tr class="tableRow">
+            <th class="contentHeader">Task</th>
+            <th class="contentHeader">Start time</th>
+            <th class="markTable">Delete</th>
+            <th class="markTable">Complete</th>
+          </tr>
       </table>
         </div>
 
-        <div class="todoClass">
-        </div>
+         <footer class="bottom"><p Id="clear"><input type="submit" id="clearInput" value="Clear all" onclick="clearTask()"/></p></footer>
+
 
     
     
 
-    <script>const submit = document.querySelector('.submit');
+    <script>
+const submit = document.querySelector('.submit');
+const submitComplete = document.querySelector('.submitComplete');
 const commentList = document.querySelector('.comments');
+const completeList = document.querySelector('.complete');
 const commentInput = document.querySelector('.input');
 const time = document.querySelector('.field');
+
+function removeTask(mainTask) {
+    const remove = document.querySelector(".mainTask");
+    remove.parentNode.removeChild(remove);
+}
 
 function getTimeStamp() {
        const now = new Date();
@@ -180,13 +229,21 @@ function getTimeStamp() {
     document.querySelector('.field').value = getTimeStamp();
 };
 
+//onload="document.getElementById('todoID2').innerHTML=document.getElementById('todoID1').innerHTML"
+
+
+
+
+
 function template(data) {
   commentList.insertAdjacentHTML("beforeend", `
-  <div class="comment flex items-start justify-start">
+  <div >
     
-      <tr class="flex-1">
-        <td >${data.comment}</td>
-         <td >${data.timeRecord}</td>
+      <tr class="mainTask">
+        <td class="content">${data.comment}</td>
+         <td class="content">${data.timeRecord}</td>
+         <td class="markTable"> <input type="submit" class="mark" value="Delete" onclick="removeTask()"/></td>
+         <td class="markTable"><input type="checkbox" class="mark"/></td>
       </tr>
     
     </div>
@@ -215,9 +272,10 @@ if (saved) {
   commentList.innerHTML = saved;
 }
 
-
+function clearTask () {
 localStorage.clear();
-
+location.reload();
+};
 
 
 </script>
