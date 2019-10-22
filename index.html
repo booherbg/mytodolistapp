@@ -346,7 +346,31 @@ localStorage.clear();
 location.reload();
 }
 
-function doFirst () {
+let inputText = document.querySelector(".input"),
+    items = document.querySelectorAll(".mainTask td"),
+    tab = [], index;
+
+    for (var i = 0; i < items.length; i++) {
+      tab.push(items[i].innerHTML);
+    }
+
+    for (var i = 0; i < items.length; i++) {
+      
+      items[i].onclick = function() {
+        index = tab.indexOf(this.innerHTML);
+        console.log(this.innerHTML + " INDEX = " + index);
+        inputText.value = this.innerHTML;
+      };
+    }
+  function refreshArray() {
+    tab.length = 0;
+    items = document.querySelectorAll("#list li")
+    for (var i = 0; i < items.length; i++) {
+      tab.push(items[i].innerHTML);
+      }
+    }
+
+/*function doFirst () {
   movetask = document.querySelector('.mainTask');
   movetask.addEventListener("dragstart", startDrag, false);
   movetask.addEventListener("dragend", endDrag, false);
@@ -393,7 +417,7 @@ function removeTask(event) {
   deletetask.innerHTML = event.dataTransfer.getData('Text')
  deletetask.style.background="lightblue";
 }
-submit.addEventListener("click", doFirst, false)
+submit.addEventListener("click", doFirst, false)*/
 
 </script>
   </body>
