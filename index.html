@@ -302,7 +302,41 @@ function getTimeStamp() {
 //onload="document.getElementById('todoID2').innerHTML=document.getElementById('todoID1').innerHTML"
 
 
+function deleteMe() {
+  // 'event' is a global variable that holds information about what we clicked
+  // with jQuery this gets passed in as the first argument, but in vanilla
+  // JS 'event' is a global variable (gross).
+  const button = event.target;
 
+  debugger; // if yo have dev tools open, it will pause here
+
+  // We want to get the grandparent of the button.
+  // The parent is the <td> element that the button is in.
+  // The parent of the <td> element is the <tr> row, which
+  // is what we actually want to delete...
+
+  const td = button.parentElement; // <td>...
+  const row = td.parentElement; // <tr>...
+
+  // With vanilla JS we can remove the 'child' of an element if
+  // we pass it in by reference. jQuery makes this *way* easier.
+  // How do we delete the row? Well, we ask the parent to delete
+  // the child, and pass in the row itself. While this is a bit
+  // convoluted, the beauty here is that we dont have to query
+  // by id, class, or anything like that. Just delete relative
+  // to wherever the calling <button/> is in the DOM tree.
+
+  // For completion:
+  // will delete the button only:
+  // td.deleteChild(button); 
+  // will delete the table cell (checkbox AND button are gone)
+  // row.deleteChild(td); 
+  // Will delete the actual row in entirety:
+  // row.parentElement.removeChild(row);
+
+  const rowParent = row.parentElement;
+  rowParent.removeChild(row); // the magic!
+}
 
 
 function template(data) {
@@ -312,7 +346,8 @@ function template(data) {
       <tr class="mainTask">
         <td class="content">${data.comment}</td>
          <td >${data.timeRecord}</td>
-         <td class="markTable"><input type="checkbox" class="mark"/></td>
+         <td class="markTable"><input type="checkbox" class="mark"/>
+         <button onClick='deleteMe()'>delete</button></td>
       </tr>
     
     
