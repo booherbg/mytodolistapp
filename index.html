@@ -253,7 +253,7 @@
           </tr>
       </table>
         </div>
-        <div class="todoclass"> 
+        <div class="todoclass" onclick="deleteLi()"> 
           <img src="https://icon-library.net/images/trash-can-icon-transparent/trash-can-icon-transparent-26.jpg" alt="trash can" class="trashcan">
         </div>
         <div class="help"><img src="https://cdn.pixabay.com/photo/2016/09/09/14/29/help-1657279_960_720.png" alt="help" class="trashcan"></div>
@@ -369,6 +369,14 @@ let inputText = document.querySelector(".input"),
       tab.push(items[i].innerHTML);
       }
     }
+      
+      function deleteLi() {
+		refreshArray();
+		if(items.length > 0) {
+		items[index].parentNode.removeChild(items[index]);
+		inputText.value = "";
+	}
+	}
 
 /*function doFirst () {
   movetask = document.querySelector('.mainTask');
